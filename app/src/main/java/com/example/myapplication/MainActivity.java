@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import com.example.myapplication.city_manager.CityManagerActivity;
+import com.example.myapplication.db.DBManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,14 +49,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         moreIv.setOnClickListener(this);
 
         fragmentList = new ArrayList<>();
-        cityList = new ArrayList<>();
-//        cityList = DBManager.queryAllCityName();  //获取数据库包含的城市信息列表
+//        cityList = new ArrayList<>();
+        cityList = DBManager.queryAllCityName();  //获取数据库包含的城市信息列表
         imgList = new ArrayList<>();
 
         if (cityList.size()==0) {
             cityList.add("北京");
-            cityList.add("上海");
-            cityList.add("广东省 广州");
+//            cityList.add("上海");
+//            cityList.add("广东省 广州");
+//            cityList.add("广东省 深圳");
+//            cityList.add("福建省 厦门");
         }
         /* 因为可能搜索界面点击跳转此界面，会传值，所以此处获取一下*/
         try {
@@ -141,15 +147,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-//        switch (v.getId()) {
-//            case R.id.main_iv_add:
-//                intent.setClass(this,CityManagerActivity.class);
-//                break;
-//            case R.id.main_iv_more:
-//                intent.setClass(this,MoreActivity.class);
-//                break;
-//        }
-//        startActivity(intent);
+        switch (v.getId()) {
+            case R.id.main_iv_add:
+                intent.setClass(this, CityManagerActivity.class);
+                break;
+            case R.id.main_iv_more:
+                intent.setClass(this,MoreActivity.class);
+                break;
+        }
+        startActivity(intent);
     }
 
     /* 当页面重写加载时会调用的函数，这个函数在页面获取焦点之前进行调用，此处完成ViewPager页数的更新*/
@@ -157,12 +163,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onRestart() {
         super.onRestart();
 //        获取数据库当中还剩下的城市集合
-//        List<String> list = DBManager.queryAllCityName();
-//        if (list.size()==0) {
-//            list.add("北京");
-//        }
-//        cityList.clear();    //重写加载之前，清空原本数据源
-//        cityList.addAll(list);
+        List<String> list = DBManager.queryAllCityName();
+        if (list.size()==0) {
+            list.add("北京");
+        }
+        cityList.clear();    //重写加载之前，清空原本数据源
+        cityList.addAll(list);
 //        剩余城市也要创建对应的fragment页面
         fragmentList.clear();
         initPager();

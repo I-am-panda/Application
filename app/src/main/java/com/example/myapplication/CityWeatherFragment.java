@@ -4,6 +4,7 @@ package com.example.myapplication;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import com.example.myapplication.base.BaseFragment;
 import com.example.myapplication.bean.WeatherBean;
+import com.example.myapplication.db.DBManager;
 import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,19 +90,23 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
             e.printStackTrace();
         }
 //         更新数据
-//        int i = DBManager.updateInfoByCity(city, result);
-//        if (i<=0) {
-////            更新数据库失败，说明没有这条城市信息，增加这个城市记录
-//            DBManager.addCityInfo(city,result);
-//        }
+        int i = DBManager.updateInfoByCity(city, result);
+        if (i<=0) {
+//            更新数据库失败，说明没有这条城市信息，增加这个城市记录
+            DBManager.addCityInfo(city,result);
+        }
     }
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
 //        数据库当中查找上一次信息显示在Fragment当中
-//        String s = DBManager.queryInfoByCity(city);
-//        if (!TextUtils.isEmpty(s)) {
-//            parseShowData(s);
-//        }
+        String s = DBManager.queryInfoByCity(city);
+        if (!TextUtils.isEmpty(s)) {
+            try {
+                parseShowData(s);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
     private void parseShowData(String result) throws ParseException {
@@ -119,7 +125,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         tempRangeTv.setText("气压  "+todayDataBean.getPressure()+"hPa");
         conditionTv.setText(todayDataBean.getWeather_short());
 //        获取实时天气温度情况，需要处理字符串
-        tempTv.setText(todayDataBean.getDegree());
+        tempTv.setText(todayDataBean.getDegree()+"°C");
 //        获取未来三天的天气情况，加载到layout当中
         WeatherBean.DataBean.Forecast24hBean futureList = resultsBean.getForecast_24h();
         View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center, null);
@@ -133,7 +139,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         idateTv.setText(futureList.get_$2().getTime()+"   明天");
         iconTv.setText(futureList.get_$2().getDay_weather());
         wind.setText(futureList.get_$2().getDay_wind_direction());
-        itemprangeTv.setText(futureList.get_$2().getMin_degree()+"~"+futureList.get_$2().getMax_degree()+"度");
+        itemprangeTv.setText(futureList.get_$2().getMin_degree()+"~"+futureList.get_$2().getMax_degree()+"°C");
 
         View itemView3 = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center, null);
         itemView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -143,10 +149,10 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         TextView itemprangeTv3 = itemView3.findViewById(R.id.item_center_tv_temp);
         TextView wind3 = itemView3.findViewById(R.id.item_center_tv_winddirection);
 //          获取对应的位置的天气情况
-        idateTv3.setText(futureList.get_$3().getTime()+"   明天");
+        idateTv3.setText(futureList.get_$3().getTime()+"   后天");
         iconTv3.setText(futureList.get_$3().getDay_weather());
         wind3.setText(futureList.get_$3().getDay_wind_direction());
-        itemprangeTv3.setText(futureList.get_$3().getMin_degree()+"~"+futureList.get_$3().getMax_degree()+"度");
+        itemprangeTv3.setText(futureList.get_$3().getMin_degree()+"~"+futureList.get_$3().getMax_degree()+"°C");
 
         View itemView2 = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center, null);
         itemView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -159,7 +165,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         idateTv2.setText(futureList.get_$4().getTime()+" 大后天");
         iconTv2.setText(futureList.get_$4().getDay_weather());
         wind2.setText(futureList.get_$4().getDay_wind_direction());
-        itemprangeTv2.setText(futureList.get_$4().getMin_degree()+"~"+futureList.get_$4().getMax_degree()+"度");
+        itemprangeTv2.setText(futureList.get_$4().getMin_degree()+"~"+futureList.get_$4().getMax_degree()+"°C");
 
     }
 

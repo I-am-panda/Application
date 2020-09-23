@@ -18,6 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".city_manager.CityManagerActivity" />
+        <activity android:name=".city_manager.SearchCityActivity" />
+        <activity android:name=".city_manager.DeleteCityActivity" />
+        <activity android:name=".MoreActivity"></activity>
     </application>
 
 </manifest>
