@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="5dp">
+    <TextView
+        android:id="@+id/item_center_tv_date"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="周六"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/item_center_tv_con"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="晴"
+        android:textSize="16sp"
+        android:layout_toRightOf="@id/item_center_tv_date"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/item_center_tv_winddirection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微风"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/item_center_tv_con"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:id="@+id/item_center_tv_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:text="9~-1℃"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/item_center_iv"
+        android:layout_toLeftOf="@id/item_center_tv_temp"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/icon_add"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E0E0E0"
+        android:layout_below="@id/item_center_tv_date"
+        android:layout_marginTop="5dp"/>
+</RelativeLayout>
